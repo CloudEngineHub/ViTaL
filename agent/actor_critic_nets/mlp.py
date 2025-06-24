@@ -201,7 +201,6 @@ class MLPActorOffsetDDPG(nn.Module):
             output_dim=self.action_dim,
             num_layers=2,
             action_squash=True,
-            init_final=self.init_final,
         )
 
     def __call__(

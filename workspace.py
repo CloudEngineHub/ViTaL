@@ -872,7 +872,7 @@ class Workspace:
             action = self.agent.post_process(
                 action, self.expert_replay_loader.stats, "action"
             )
-            print(f"Offset Action: {action}, Temperature: {temperature:.4f}")
+            print(f"Offset Action: {action}")
 
             if save_every_step(self.global_step):
                 self.save_snapshot()
