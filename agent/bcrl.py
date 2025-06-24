@@ -198,6 +198,7 @@ class BCRLAgent(Agent):
     @jax.jit
     def update_actor(agent, batch: DatasetDict, step: int):
         stddev = agent.stddev_fn(step)
+        sample_key, rng = jax.random.split(agent.rng)
         drop_key, rng = jax.random.split(agent.rng)
 
         def actor_loss_fn(actor_params):
@@ -207,7 +208,7 @@ class BCRLAgent(Agent):
                 batch["action_base"],
                 stddev,
                 training=True,
-            )
+            ).sample(seed=sample_key)
 
             q1, q2 = agent.critic.apply_fn(
                 {"params": agent.critic.params},
@@ -219,13 +220,6 @@ class BCRLAgent(Agent):
             )
             q = jnp.minimum(q1, q2)
             actor_loss = -jnp.mean(q)
-
-            # L2 regularization
-            l2_coef = 5e-5
-            flat, _ = ravel_pytree(actor_params)
-            l2_reg = l2_coef * jnp.vdot(flat, flat)
-
-            actor_loss = actor_loss + l2_reg
 
             return actor_loss, {
                 "actor_loss": actor_loss,
@@ -254,7 +248,7 @@ class BCRLAgent(Agent):
             batch["action_base_next"],
             stddev,
             training=False,
-        )
+        ).sample(seed=sample_key)
 
         target_q1, target_q2 = agent.critic_target.apply_fn(
             {"params": agent.critic_target.params},
