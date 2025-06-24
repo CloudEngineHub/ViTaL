@@ -262,7 +262,6 @@ class Workspace:
             fill=(255, 0, 0),
             font=ImageFont.load_default(),
         )
-        img.save(self.sanity_dir / f"frame_marked.jpg")
 
         Z = float(depth[y_full, x_full])
         xyz_cam = utils.pixel_to_camera_frame((x_full, y_full), Z, self.K)
@@ -380,9 +379,6 @@ class Workspace:
                     action = np.sum(
                         actions_for_current_step * exp_weights[:, None], axis=0
                     )
-                base = np.zeros(7)
-                base[:3] = action[:3]
-                action = base
                 action = self.expert_replay_loader.postprocess(action, "action")
 
                 time_step = self.env.step(np.array(action).squeeze())
@@ -499,10 +495,7 @@ class Workspace:
                 action_base = np.sum(
                     actions_for_current_step * exp_weights[:, None], axis=0
                 )
-
-            base = np.zeros(7)
-            base[:3] = action_base[:3]
-            action_base = base
+                
             action_base = np.expand_dims(action_base, axis=0)
 
             if repr(self.agent) == "bcrl_sac":
@@ -851,9 +844,6 @@ class Workspace:
                     actions_for_current_step * exp_weights[:, None], axis=0
                 )
 
-            base = np.zeros(7)
-            base[:3] = action_base[:3]
-            action_base = base
             action_base = np.expand_dims(action_base, axis=0)
 
             if repr(self.agent) == "bcrl_sac":
