@@ -91,7 +91,7 @@ class XarmRLDataset(Dataset):
     ):
         if bg_augs:
             self.bg_aug_threshold = 1.0
-            bg_folder = Path("/mnt/robotlab/zifan/visk_rl_jax/augmented_backgrounds")
+            bg_folder = Path("/path_to_data/augmented_backgrounds")
             self.bg_files = sorted(bg_folder.glob("augmented_background_*.png"))
             bg_list = []
             for f in self.bg_files:
@@ -108,7 +108,7 @@ class XarmRLDataset(Dataset):
             self.xmem_socket.connect("tcp://localhost:5558")
 
             base_dir = Path(
-                f"/mnt/robotlab/zifan/visk_rl_jax/anchor_data/{task_name}/base/"
+                f"/path_to_data/anchor_data/{task_name}/base/"
             )
 
             self.base_dir = str(base_dir)
