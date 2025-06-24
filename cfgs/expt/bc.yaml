@@ -1,0 +1,21 @@
+name: bc
+agent:
+  _target_: agent.bc.BCAgent.create
+  lr: 1e-4
+  hidden_dim: ${suite.hidden_dim}
+  stddev_schedule: 0.1
+  stddev_clip: 0.3
+  obs_spec: ???
+  action_spec: ???
+  pixel_keys: ${suite.pixel_keys}
+  aux_keys: ${suite.aux_keys}
+  num_queries: ${num_queries}
+  temporal_agg: ${temporal_agg}
+  repr_dim: ${suite.repr_dim}
+  use_tb: ${use_tb}
+  augment: false
+  actor_type: 1 # 0: MLP, 1: GPT
+  action_type: 0 # 0: continuous, 1: discrete
+
+replay_buffer: ${suite.bc_dataset}
+use_robot: ${eval}

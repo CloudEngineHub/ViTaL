@@ -1,0 +1,26 @@
+pip
+pre-commit
+jax[cuda]
+--find-links https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+flax
+tqdm
+gym
+PyOpenGL-accelerate
+opencv-python
+# tensorflow
+tensorflow_probability
+wandb
+pandas
+ipdb
+h5py
+termcolor
+tensorboard
+hydra-core
+hydra-submitit-launcher
+dm-env
+imageio
+imageio-ffmpeg
+blosc
+einops
+zmq
+-e envs/xarm-env

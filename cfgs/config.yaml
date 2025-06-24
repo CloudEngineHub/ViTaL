@@ -1,0 +1,44 @@
+defaults:
+  - local_config
+  - _self_
+  - expt: bc
+  - suite: xarm
+  - override hydra/launcher: submitit_local
+
+batch_size: 256
+offset_action_scale: 0.3
+seed: 25
+use_tb: false
+use_wandb: false
+save_video: false
+
+# Experiment
+img_size: 128
+experiment: ${suite.name}_${expt.name}
+experiment_label: trial
+load_model: false
+eval: false
+use_robot: ${expt.use_robot}
+mask_view: false
+model_path: your/checkpoint
+
+# Action chunking parameters
+temporal_agg: true
+num_queries: 10
+
+# ViTaL Pipeline parameters
+bg_augs: true
+bg_aug_threshold: 1.0
+crop_view: true
+human_in_loop: false
+molmo_reaching: false
+task_name: usb_insertion #card_swiping #usb_insertion #plug_insertion #key_insertion
+
+hydra:
+  job:
+    chdir: true
+  run:
+    dir: ./exp_local/${now:%Y.%m.%d}_${experiment}/${now:%H%M%S}_${experiment_label}
+  sweep:
+    dir: ./exp_local/${now:%Y.%m.%d}/${now:%H%M%S}
+    subdir: ${hydra.job.num}

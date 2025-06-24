@@ -1,0 +1,61 @@
+name: xarm_env
+
+# Observations
+frame_stack: 1
+action_repeat: 1
+hidden_dim: 256
+repr_dim: 256
+pixel_keys: ["pixels52"]
+aux_keys: ["sensor0"] #["sensor0"]
+irl_keys: ["proprioceptive"] #"proprioceptive"
+
+num_train_steps: 40000
+num_eval_episodes: 200
+log_every_steps: 100
+save_every_steps: 250
+eval_every_steps: 500
+num_seed_frames: 300
+
+bc_dataset:
+  _target_: data_handling.replay_buffer.ReplayBufferFactory
+  base_dataset: data_handling.xarm_dataset.XarmDataset
+  capacity: -1
+  path: ${root_dir}/data/your_data.pkl
+  temporal_agg: ${temporal_agg}
+  bg_augs: ${bg_augs}
+  bg_aug_threshold: ${bg_aug_threshold}
+  crop_view: ${crop_view}
+  num_queries: ${num_queries}
+  img_size: ${img_size}
+  pixel_keys: ${suite.pixel_keys}
+  aux_keys: ${suite.aux_keys}
+  relative_actions: true
+  subsample: 5
+
+rl_replay_buffer:
+  _target_: data_handling.replay_buffer.ReplayBufferFactory
+  base_dataset: data_handling.xarm_rl_dataset.XarmRLDataset
+  capacity: 10000
+  img_size: ${img_size}
+  pixel_keys: ${suite.pixel_keys}
+  aux_keys: ${suite.aux_keys}
+  obs_spec: ???
+  action_spec: ???
+  action_base_dim: 7
+  offset_action_scale: ${offset_action_scale}
+  task_name: ${task_name}
+  bg_augs: ${bg_augs}
+
+task_make_fn:
+  _target_: suite.xarm_env.make
+  frame_stack: ${suite.frame_stack}
+  action_repeat: ${suite.action_repeat}
+  seed: ${seed}
+  height: ${img_size}
+  width: ${img_size}
+  pixel_keys: ${suite.pixel_keys}
+  aux_keys: ${suite.aux_keys}
+  use_robot: ${use_robot}
+  mask_view: ${mask_view}
+  molmo_reaching: ${molmo_reaching}
+  task_name: ${task_name}

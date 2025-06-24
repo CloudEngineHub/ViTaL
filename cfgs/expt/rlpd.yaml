@@ -1,0 +1,39 @@
+defaults:
+  - bc@agent.bc_params
+name: rlpd
+agent:
+  _target_: agent.bcrl.RLPDLAgent.create
+  lr: 1e-5
+  hidden_dim: ${suite.hidden_dim}
+  stddev_schedule: linear(0.25,0.1,10000) #0.05 #linear(0.2,0.01,3000) # TODO: Check if we need a schedule here. linear0.2,0.01,(.+)\
+  stddev_clip: 0.3
+  obs_spec: ???
+  action_spec: ???
+  pixel_keys: ${suite.pixel_keys}
+  aux_keys: ${suite.aux_keys}
+  critic_target_tau: 0.1 # TODO: Figure out what this is
+  repr_dim: ${suite.repr_dim}
+  actor_type: 0
+  critic_type: 0
+  action_type: 0
+  bc_snapshot_path: /your_checkpoint
+  use_layer_norm: true
+  critic_dropout_rate: 0.0
+
+  bc_params:
+    agent:
+      obs_spec: null
+      action_spec: null
+
+irl: true
+auto_rew_scale: true
+load_rl: false
+num_scale_estimation_episodes: 40
+sinkhorn_rew_scale: 200
+auto_rew_scale_factor: 4
+utd_ratio: 16
+min_reward: false
+
+replay_buffer: ${suite.rl_replay_buffer}
+pkg_path: ${root_dir}data/data.pkl
+use_robot: true
