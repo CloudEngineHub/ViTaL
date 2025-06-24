@@ -594,7 +594,7 @@ class Workspace:
                 utils.plot_norms(norms, self.work_dir)
                 self.env.reset()
                 self._global_episode += 1
-                self.env.reset()
+               
 
                 success = time_step.observation["goal_achieved"]
                 if self.cfg.human_in_loop:
@@ -617,6 +617,7 @@ class Workspace:
                         success = False
 
                 episode_outcomes.append(success)
+                self.env.reset()
 
                 # wait until all the metrics schema is populated
                 observations = jax.tree.map(lambda x: np.stack(x, 0), observations)
