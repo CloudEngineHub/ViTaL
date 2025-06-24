@@ -123,9 +123,6 @@ class Workspace:
                 ]
             )
             self.ext_inv = np.linalg.inv(ext)  # camera→world
-            self.molmo_c = MolmoZMQClient("10.19.249.38:5559")
-            self.sanity_dir = Path("/mnt/robotlab/zifan/visk_rl_jax/sanity_check_molmo")
-            self.sanity_dir.mkdir(exist_ok=True, parents=True)
 
         # Setup checkpointer
         self.orbax_ckptr = orbax.checkpoint.PyTreeCheckpointer()

@@ -308,12 +308,6 @@ class XarmRLDataset(Dataset):
             time_step.observation["bitwise_mask"] = resized_mask
             from pathlib import Path
 
-            sanity_dir = Path("/mnt/robotlab/zifan/visk_rl_jax/sanity_check_rl")
-            sanity_dir.mkdir(exist_ok=True, parents=True)
-            mask_file = sanity_dir / f"generated_mask_{self.mask_count}.png"
-            cv2.imwrite(str(mask_file), resized_mask * 255)
-            # print(f"Saved generated mask to: {mask_file}")
-
         if preprocess:
             for k in self.dataset_dict["obs"].keys():
                 if not k.startswith("bit"):
