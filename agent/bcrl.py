@@ -467,7 +467,7 @@ class BCRLAgent(Agent):
 
         if key == "proprioceptive":
             single_obs = single_obs[:, :3]  # Only x,y,z proprio
-            target = np.array([325.0, -75.0, 20.0])
+            target = '[task_target_pose]'
             diff = np.abs(single_obs - target) / 1000  # shape [T, 3]
 
             weighted_diff = diff[:, 0] * 10 + diff[:, 1] * 10 + diff[:, 2] * 10
