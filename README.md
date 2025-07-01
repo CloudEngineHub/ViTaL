@@ -5,7 +5,7 @@
 
 ¹New York University Shanghai, ²New York University, ³Honda Research
 
-*Corresponding author: rbhirangi@nyu.edu
+*Corresponding author: raunaqbhirangi@nyu.edu
 
 ---
 This repository provides code for "Touch begins where vision ends: Generalizable policies for contact-rich manipulation". It supports jax-based behaviour cloning and residual RL modules. Semantic augmentation pipelines and VLM-guided reaching extension are also included.
